@@ -96,7 +96,7 @@ class cell_Graph:
 def sample_function(vertices):
     f = {}
     for i in range (0,len(vertices)):
-        f[i] = random.randint(0,9)
+        f[i] = random.randint(1,9)
     return f
 
 vertices = [
@@ -113,9 +113,11 @@ vertices = [
 
 n = int(math.sqrt(len(vertices)))
 f = sample_function(vertices)
+print(f)
 
-min_val = min(f)
-max_val = max(f)
+min_val = min(f.values())
+print(min_val)
+max_val = max(f.values())
 
 diff = 1
 breakpoints = []
@@ -124,6 +126,9 @@ i = min_val - 0.5 # we are doing i+=diff at the start so to get the correct frag
 while (i<max_val):
     i+=diff
     breakpoints.append(i)
+
+temp = len(breakpoints)-1
+del breakpoints[temp]
 
 def bin_srch_left(val):
     global breakpoints
@@ -142,7 +147,10 @@ def bin_srch_left(val):
                 l=m+1
             else:
                 return m
-    return l
+    if (breakpoints[l] < val):
+        return l
+    else:
+        return -1
 
 def bin_srch_right(val):
     global breakpoints
@@ -157,34 +165,40 @@ def bin_srch_right(val):
             r=m
         else:
             l=m+1
-    return l
+    
+    if (breakpoints[l] > val):
+        return l
+    else:
+        return -1
 
 def edge_brk_points(idx1,idx2):
     global breakpoints
     stidx = bin_srch_right(idx1)
     edidx = bin_srch_left(idx2)
+    if (stidx == -1 or edidx == -1):
+        return []
     return breakpoints[stidx:edidx+1]
 
 def get_cell_fragments(idx,n):
     global f
     cellEdges = []
-    l1 = edge_brk_points(min(idx,idx+1),max(idx,idx+1))
+    l1 = edge_brk_points(min(f[idx],f[idx+1]),max(f[idx],f[idx+1]))
     if f[idx]>f[idx+1]:
         l1.reverse()  
     cellEdges.append(l1)
-    l1 = edge_brk_points(min(idx,idx+n),max(idx,idx+n))
+    l1 = edge_brk_points(min(f[idx],f[idx+n]),max(f[idx],f[idx+n]))
     if f[idx] > f[idx+n]:
         l1.reverse()
     cellEdges.append(l1)
-    l1 = edge_brk_points(min(idx+n,idx+n+1),max(idx+n,idx+n+1))
+    l1 = edge_brk_points(min(f[idx+n],f[idx+n+1]),max(f[idx+n],f[idx+n+1]))
     if f[idx+n] > f[idx+n+1]:
         l1.reverse()
     cellEdges.append(l1)
-    l1 = edge_brk_points(min(idx+n+1,idx+1),max(idx+n+1,idx+1))
+    l1 = edge_brk_points(min(f[idx+n+1],f[idx+1]),max(f[idx+n+1],f[idx+1]))
     if f[idx+n+1] < f[idx+1]:
         l1.reverse()
     cellEdges.append(l1)
-    l1 = edge_brk_points(min(idx+n+1,idx),max(idx+n+1,idx))
+    l1 = edge_brk_points(min(f[idx+n+1],f[idx]),max(f[idx+n+1],f[idx]))
     if f[idx+n+1] > f[idx]:
         l1.reverse()
     cellEdges.append(l1)
@@ -198,18 +212,19 @@ def adjlist_edglist(EdgeList):
         adjlist[v1].append(v2)
         adjlist[v2].append(v1)
 
-
+# print(breakpoints)
 Edges_global = []
 Nodes_global = []
 p=0
 adjlist = []
 
-for i in range(n-2):
-    for j in range (n-2):
+for i in range(n-1):
+    for j in range (n-1):
         idx = n*i+j
-        print("In")
-        cellEdges = get_cell_fragments(idx,n)        
-        print("Done")
+        # print("In")
+        cellEdges = get_cell_fragments(idx,n)
+        print(cellEdges)        
+        # print("Done")
         G = cell_Graph(cellEdges,idx,(n-1)*i+j)
         EdgeList = G.generate_Graph(p)
         NodesList = G.Nodes
@@ -248,7 +263,8 @@ for i in range(p):
 
 final_nodes = []
 for l in components:
-    max_l = math.floor(max(l))
+    l1 = [Nodes_global[u].val for u in l]
+    max_l = math.floor(max(l1))
     final_nodes.append(max_l)
 
 Edges_Tree = []
@@ -269,19 +285,47 @@ def connect_nodes():
                                 flg = 1
                                 Edges_Tree.append([min(i,j),max(i,j)])
                                 break
+                
+                    else:
+                        if Nodes_global[k].cell_no - (n-1) == Nodes_global[l].cell_no:
+                            if Nodes_global[k].val == Nodes_global[l].val:
+                                if(Nodes_global[k].flg == Nodes_global[l].flg and Nodes_global[k].dir == "U" and Nodes_global[l].dir == "D"):
+                                    flg = 1
+                                    Edges_Tree.append([min(i,j),max(i,j)])
+                                    break
+
+                        elif (Nodes_global[k].cell_no -1 == Nodes_global[l].cell_no and Nodes_global[k].cell_no%(n-1)):
+                            if Nodes_global[k].val == Nodes_global[l].val:
+                                if(Nodes_global[k].flg == Nodes_global[l].flg and Nodes_global[k].dir == "D" and Nodes_global[l].dir == "U"):
+                                    flg = 1
+                                    Edges_Tree.append([min(i,j),max(i,j)])
+                                    break
+
+                        elif (Nodes_global[k].cell_no +1 == Nodes_global[l].cell_no and Nodes_global[l].cell_no%(n-1)):
+                            if Nodes_global[k].val == Nodes_global[l].val:
+                                if(Nodes_global[k].flg == Nodes_global[l].flg and Nodes_global[k].dir == "U" and Nodes_global[l].dir == "D"):
+                                    flg = 1
+                                    Edges_Tree.append([min(i,j),max(i,j)])
+                                    break
+                        elif (Nodes_global[k].cell_no +(n-1) == Nodes_global[l].cell_no):
+                            if Nodes_global[k].val == Nodes_global[l].val:
+                                if(Nodes_global[k].flg == Nodes_global[l].flg and Nodes_global[k].dir == "D" and Nodes_global[l].dir == "U"):
+                                    flg = 1
+                                    Edges_Tree.append([min(i,j),max(i,j)])
+                                    break
                 if flg == 1:
                     break
 
 
 connect_nodes()
-print(Edges_Tree)
+# print(Edges_Tree)
 
-print(final_nodes)
+# print(final_nodes)
 
-print(len(components))
+# print(len(components))
 for i in Edges_Tree:
     v1,v2 = i[0],i[1]
-    print(f'{v1} {v2}')
+    # print(f'{v1} {v2}')
     if final_nodes[v1]==final_nodes[v2]:
         for idx in range(len(Edges_Tree)):
             if Edges_Tree[idx][0] == v2:
