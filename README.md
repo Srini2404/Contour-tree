@@ -29,5 +29,5 @@
 * **math module** - built in module, so need of anything else.
 * matplotlib module
 ``` pip install matplotlib```
-* ** queue module ** - built in module I guess.
+* **queue module** - built in module I guess.
 * 
