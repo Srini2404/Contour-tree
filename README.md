@@ -21,13 +21,9 @@
     ``` sudo apt install python3-pip```</br>
 * **numpy module** - for installing all the subsequent packages, pip must be installed in the system.</br>
 ```pip install numpy```</br>
-* **collection module** -</br>
-```pip install collection```</br>
-* **scipy.spatial module**</br>
-``` pip install scipy```</br>
+* **collection module** - ```pip install collection```</br>
+* **scipy.spatial module** - ``` pip install scipy```</br>
 * **random module** - built in module </br>
 * **math module** - built in module, so need of anything else.</br>
-* matplotlib module</br>
-``` pip install matplotlib```</br>
+* **matplotlib module** - ``` pip install matplotlib```</br>
 * **queue module** - built in module I guess.</br>
-* 
