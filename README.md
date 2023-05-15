@@ -6,7 +6,7 @@
     ```sudo apt update && sudo apt upgrade```.</br>
     Then we should install the required dependencies for them. Following is the code for the same. </br>
     ```sudo apt install wget build-essential libncursesw5-dev libssl-dev \ libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev``` </br>
-    Then to download the python we do the follwing</br>
+    Then to download python we do the follwing</br>
     ```sudo add-apt-repository ppa:deadsnakes/ppa```</br>
     Then to install python we do the following </br>
     ```sudo apt install python3.11```</br>
@@ -29,7 +29,7 @@
 * **queue module** - built in module .</br>
 
 ## Instructions to Run the code - </br>
-Once all the needed packages are installed. We are all set to run the code. All we need is to now just open SourceCode file (python file) in the editor of your choice ( we would recommend **Visual Studio Code**) and press the run button.</br>
+Once all the needed packages are installed, we are all set to run the code. All we need is to now just open the SourceCode file (python file - final.py) in the editor of your choice ( we would recommend **Visual Studio Code**) and press the run button. Or download the file, and on the terminal, in the folder which contians the code file (final.py), type python3 [filename].py </br>
 The data needed for running the code is hard coded in the file. If we want to change the input data we just modify the values in the file and then run the file.
 Once the running is complete a plot will show up which is the **contour tree** for the given set of data points.
 
