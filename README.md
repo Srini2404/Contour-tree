@@ -31,6 +31,6 @@
 ## Instructions to Run the code - </br>
 Once all the needed packages are installed. We are all set to run the code. All we need is to now just open SourceCode file (python file) in the editor of your choice ( we would recommend **Visual Studio Code**) and press the run button.</br>
 The data needed for running the code is hard coded in the file. If we want to change the input data we just modify the values in the file and then run the file.
-Once the running is complete a plot will show up which is the contour tree for the given set of data points.
+Once the running is complete a plot will show up which is the **contour tree** for the given set of data points.
 
 
