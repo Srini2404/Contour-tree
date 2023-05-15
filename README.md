@@ -2,8 +2,8 @@
 ### Software Needed
 * **Python 3.9+**
     1) **Windows users** - Go to python website and then download the version above 3.9. Once downloaded, run the .exe file that you just downloaded.
-    2) **Ubuntu users** - Type the following in the terminal.
-    ```sudo apt update && sudo apt upgrade```.
+    2) **Ubuntu users** - Type the following in the terminal.</br>
+    ```sudo apt update && sudo apt upgrade```.</br>
     Then we should install the required dependencies for them. Following is the code for the same.
     ```sudo apt install wget build-essential libncursesw5-dev libssl-dev \ libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev```
     Then to download the python we do the follwing
